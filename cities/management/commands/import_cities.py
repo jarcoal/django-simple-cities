@@ -18,8 +18,7 @@ class Command(BaseCommand):
 		
 		#no countries found
 		if not len(countries):
-			print 'Missing argument(s): Country Codes to Import.'
-			return
+			countries = None
 	
 		#open up the CSV
 		csv_contents = csv.reader(open(file_name), delimiter=',')
@@ -37,7 +36,7 @@ class Command(BaseCommand):
 				population = 0
 		
 			#we're not supposed to record this entry, skip.
-			if country_code not in countries:
+			if countries and country_code not in countries:
 				continue
 		
 			#start loading the data
