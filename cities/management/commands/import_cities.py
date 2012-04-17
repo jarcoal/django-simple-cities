@@ -15,10 +15,6 @@ class Command(BaseCommand):
 	
 		#the rest of the parameters are countries
 		countries = a[1:]
-		
-		#no countries found
-		if not len(countries):
-			countries = None
 	
 		#open up the CSV
 		csv_contents = csv.reader(open(file_name), delimiter=',')
@@ -36,7 +32,7 @@ class Command(BaseCommand):
 				population = 0
 		
 			#we're not supposed to record this entry, skip.
-			if countries and country_code not in countries:
+			if len(countries) and country_code not in countries:
 				continue
 		
 			#start loading the data
