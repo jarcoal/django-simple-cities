@@ -19,7 +19,7 @@ http://www.sqlite.org/contrib
 
 ###Installation
 
-Run ```pip install git+git://github.com/jarcoal/django-simple-cities.git#egg=django-simple-cities``` to install the package.
+Run ```pip install -e git+git://github.com/jarcoal/django-simple-cities.git#egg=django-simple-cities``` to install the package.
 
 Add ```cities``` to ```INSTALLED_APPS``` in your settings file:
 
