@@ -3,23 +3,6 @@ from django.db import models
 # SQL for filtering cities given the lat/lng of another city
 geo_filter = 'pow(%s, 2) > (69.1 * (`cities_city`.`latitude` - %s)) * (69.1 * (`cities_city`.`latitude` - %s)) + (69.1 * (`cities_city`.`longitude` - %s) * COS(%s / 57.3)) * (69.1 * (`cities_city`.`longitude` - %s) * COS(%s / 57.3))'
 
-#city.photographer_set.nearby(miles=30)
-
-class NearbyManager(models.Manager):
-	use_for_related_fields = True
-
-	def nearby(self, miles=25):
-		#When related:
-		#self.instance == city
-		#self.model == related model
-		
-		city = self.instance
-		related = self.model
-	
-		self.core_filters = {} #don't want any of these
-	
-		return self.get_query_set().extra(where=[geo_filter], params=[miles, city.latitude, city.latitude, city.longitude, city.latitude, city.longitude, city.latitude])
-
 
 class City(models.Model):
 	"""
@@ -34,9 +17,7 @@ class City(models.Model):
 	longitude = models.FloatField(db_index=True)
 	
 	population = models.IntegerField(db_index=True, default=0)
-	
-	objects = NearbyManager()
-	
+		
 	def nearby_cities(self, miles=25):
 		"""
 		Returns a list of cities within `miles` of this city
@@ -44,11 +25,11 @@ class City(models.Model):
 		return City.objects.extra(where=[geo_filter], params=[miles, self.latitude, self.latitude, self.longitude, self.latitude, self.longitude, self.latitude])
 	
 	
-# 	def nearby_related(self, related_model, related_name='city', miles=25):
-# 		"""
-# 		Returns a queryset for a related model
-# 		"""
-# 		return related_model.objects.extra(where=[geo_filter], params=[miles, self.latitude, self.latitude, self.longitude, self.latitude, self.longitude, self.latitude]).select_related(related_name)
+	def nearby_related(self, related_model, related_name='city', miles=25):
+		"""
+		Returns a queryset for a related model
+		"""
+		return related_model.objects.extra(where=[geo_filter], params=[miles, self.latitude, self.latitude, self.longitude, self.latitude, self.longitude, self.latitude]).select_related(related_name)
 	
 	
 	def __unicode__(self):
