@@ -54,5 +54,5 @@ This might take a while.  If you database is not local or on a LAN, it will take
 >>>c = City.objects.get(name='Portland', region='OR', country_code='US')
 
 >>>c.nearby_cities(miles=5)
-[<City: Alameda, OR, US>, <City: Albina, OR, US>, <City: Arleta, OR, US>, <City: Barnes Heights, OR, US>, <City: Bridlemile, OR, US>, <City: Brooklyn, OR, US>, <City: Burlingame, OR, US>, <City: Capitol Hill, OR, US>, <City: Carson Heights, OR, US>, <City: East Portland, OR, US>, <City: Eastmoreland, OR, US>, <City: Errol Heights, OR, US>, <City: Glencullen, OR, US>, <City: Green Hills, OR, US>, <City: Hillsdale, OR, US>, <City: Hollywood, OR, US>, <City: Irvington, OR, US>, <City: Kenton, OR, US>, <City: Kings Heights, OR, US>, <City: Laurelhurst, OR, US>, '...(remaining elements truncated)...']
+[<City: Alameda, OR, US>, <City: Albina, OR, US>, <City: Arleta, OR, US>, ...]
 ```
