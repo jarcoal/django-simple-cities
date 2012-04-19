@@ -51,8 +51,37 @@ This might take a while.  If you database is not local or on a LAN, it will take
 
 ```python
 >>>from cities.models import City
->>>c = City.objects.get(name='Portland', region='OR', country_code='US')
+>>>pdx = City.objects.get(name='Portland', region='OR', country_code='US')
 
->>>c.nearby_cities(miles=5)
+>>>pdx.nearby_cities(miles=5)
 [<City: Alameda, OR, US>, <City: Albina, OR, US>, <City: Arleta, OR, US>, ...]
+```
+
+----
+
+###"I need to find my related models near a city"
+
+```python
+#Example Related Model
+from django.db import models
+from cities.models import City
+
+class Store(models.Model):
+	city = models.ForeignKey(City)
+	name = models.CharField(max_length=100)
+	
+	def __unicode__(self):
+		return self.name
+
+
+#Some dummy data
+>>>Store.objects.create(city=City.objects.get(name='Eugene', region='OR', country_code='US'), name='Eugene Store')
+>>>Store.objects.create(city=City.objects.get(name='Portland', region='OR', country_code='US'), name='Portland Store')
+
+#The Query
+>>>eugene = City.objects.get(name='Eugene', region='OR', country_code='US')
+>>>eugene.nearby_related(Store, miles=25)
+[<Store: Eugene Store>]
+>>>eugene.nearby_related(Store, miles=150)
+[<Store: Eugene Store>, <Store: Portland Store>]
 ```
