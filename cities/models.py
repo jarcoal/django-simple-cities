@@ -1,7 +1,7 @@
 from django.db import models
 
 # SQL for filtering cities given the lat/lng of another city
-geo_filter = 'pow(%s, 2) > (69.1 * (`geo_city`.`latitude` - %s)) * (69.1 * (`geo_city`.`latitude` - %s)) + (69.1 * (`geo_city`.`longitude` - %s) * COS(%s / 57.3)) * (69.1 * (`geo_city`.`longitude` - %s) * COS(%s / 57.3))'
+geo_filter = 'pow(%s, 2) > (69.1 * (`cities_city`.`latitude` - %s)) * (69.1 * (`cities_city`.`latitude` - %s)) + (69.1 * (`cities_city`.`longitude` - %s) * COS(%s / 57.3)) * (69.1 * (`cities_city`.`longitude` - %s) * COS(%s / 57.3))'
 
 #city.photographer_set.nearby(miles=30)
 
