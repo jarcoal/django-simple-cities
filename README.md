@@ -6,10 +6,12 @@
 ###Requirements
 
 Download MaxMind cities of the world dataset (free):
+
 http://www.maxmind.com/app/worldcities
 http://www.maxmind.com/download/worldcities/worldcitiespop.txt.gz (direct DL)
 
 Please note that if you are using sqlite3, you will need to install the extension-functions.c package, found at the bottom of this page:
+
 http://www.sqlite.org/contrib
 
 ----
@@ -45,5 +47,12 @@ This might take a while.  If you database is not local or on a LAN, it will take
 
 ----
 
-###"I need to find all cities within X miles of this city"
+###"I need to find all cities within X miles of a city"
+
+```python
+>>>from cities.models import City
+>>>c = City.objects.get(name='Portland', region='OR', country_code='US')
+
+>>>c.nearby_cities(miles=25)
+```
 
