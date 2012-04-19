@@ -4,6 +4,13 @@ from django.db import models
 geo_filter = 'pow(%s, 2) > (69.1 * (`cities_city`.`latitude` - %s)) * (69.1 * (`cities_city`.`latitude` - %s)) + (69.1 * (`cities_city`.`longitude` - %s) * COS(%s / 57.3)) * (69.1 * (`cities_city`.`longitude` - %s) * COS(%s / 57.3))'
 
 
+def geo_query_params(i, miles):
+	"""
+	Helper function to build parameter set for geo query
+	"""
+	return [miles, i.latitude, i.latitude, i.longitude, i.latitude, i.longitude, i.latitude]
+
+
 class City(models.Model):
 	"""
 	Represents a City
@@ -22,14 +29,14 @@ class City(models.Model):
 		"""
 		Returns a list of cities within `miles` of this city
 		"""
-		return City.objects.extra(where=[geo_filter], params=[miles, self.latitude, self.latitude, self.longitude, self.latitude, self.longitude, self.latitude])
+		return City.objects.extra(where=[geo_filter], params=geo_query_params(self, miles))
 	
 	
 	def nearby_related(self, related_model, related_name='city', miles=25):
 		"""
 		Returns a queryset for a related model
 		"""
-		return related_model.objects.extra(where=[geo_filter], params=[miles, self.latitude, self.latitude, self.longitude, self.latitude, self.longitude, self.latitude]).select_related(related_name)
+		return related_model.objects.extra(where=[geo_filter], params=geo_query_params(self, miles)).select_related(related_name)
 	
 	
 	def __unicode__(self):
