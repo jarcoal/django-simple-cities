@@ -1,5 +1,4 @@
 from django.core.management.base import BaseCommand, CommandError
-from django.db import transaction, IntegrityError
 
 from cities.models import City
 import csv
@@ -13,7 +12,7 @@ class Command(BaseCommand):
         #check for the location of the maxmind set.
         try:
             file_name = a[0]
-        except:
+        except Exception:
             print 'Missing argument: Location of the cities CSV dataset.'
             return
 
@@ -45,9 +44,8 @@ class Command(BaseCommand):
                                         longitude=longitude, population=population)
 
                 print 'Created City: %s (%i)' % (c.name, c.id)
-            except IntegrityError:
-                transaction.rollback()
 
             #something went wrong...
             except Exception, e:
                 print '***Failed to import city: %s, because: %s' % (ascii_name, e.message)
+                pass
